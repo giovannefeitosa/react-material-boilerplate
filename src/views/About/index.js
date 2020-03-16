@@ -4,8 +4,8 @@ import * as S from './styles';
 
 export default function Home() {
   return (
-    <Page title="About">
-      <S.Message>About!</S.Message>
+    <Page title="Sobre Nós" currentMenu="About">
+      <S.Message>Sobre Nós!</S.Message>
     </Page>
   );
 }

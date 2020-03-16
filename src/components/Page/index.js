@@ -15,7 +15,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import menuList from './menuList';
+import menuList from '../../routes/menuList';
 
 const drawerWidth = 240;
 
@@ -49,6 +49,11 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  activeMenu: {
+    '&, &:hover, &:focus': {
+      background: '#e7e7e7',
+    }
+  },
 }));
 
 function Page(props) {
@@ -69,7 +74,11 @@ function Page(props) {
         <>
           <List>
             {menuSection.menus.map(menu => (
-              <ListItem button onClick={() => menu.path && history.push(menu.path)}>
+              <ListItem
+                className={menu.id === props.currentMenu ? classes.activeMenu : undefined}
+                button
+                onClick={() => menu.path && history.push(menu.path)}
+              >
                 <ListItemIcon><menu.icon /></ListItemIcon>
                 <ListItemText primary={menu.label} />
               </ListItem>
@@ -140,6 +149,7 @@ function Page(props) {
 
 Page.propTypes = {
   title: PropTypes.string,
+  currentMenu: PropTypes.string,
 };
 
 export default Page;

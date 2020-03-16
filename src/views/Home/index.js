@@ -4,7 +4,7 @@ import * as S from './styles';
 
 export default function Home() {
   return (
-    <Page title="Home">
+    <Page title="Home" currentMenu="Home">
       <S.Message>Home!</S.Message>
     </Page>
   );
