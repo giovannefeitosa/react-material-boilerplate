@@ -2,8 +2,10 @@ import React from 'react';
 import { Switch, Route, Router, BrowserRouter } from 'react-router-dom';
 import Home from 'views/Home';
 import About from 'views/About';
-import history from 'routes/history';
 import ErrorNotFound from 'views/ErrorNotFound';
+import { createBrowserHistory } from 'history';
+
+const history = createBrowserHistory();
 
 export default function Routes() {
   return (

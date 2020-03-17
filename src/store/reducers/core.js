@@ -1,17 +1,14 @@
-import { ActionCore } from '../actions/core';
+import { ActionCore } from 'store/actions/core';
+import createReducer from 'util/createReducer';
 
 const initialState = {
   loading: false,
 };
 
-export default function coreReducer(state = initialState, action) {
-  switch (action.type) {
-    case ActionCore.SET_LOADING:
-      return {
-        ...state,
-        loading: action.value,
-      };
-    default:
-      return state;
-  }
-}
+export default createReducer(initialState, {
+  // Set full page loading
+  [ActionCore.SET_LOADING]: (state, action) => ({
+    ...state,
+    loading: action.value
+  }),
+});
