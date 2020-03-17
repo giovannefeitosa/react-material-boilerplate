@@ -28,7 +28,7 @@ export const LoadingGif = () => (
   <CenterModal>
     <Box>
       <img src={loading} alt="Loading Pókemon" style={{ height: 120 }} />
-      Loading...
+      Carregando...
     </Box>
   </CenterModal>
 );

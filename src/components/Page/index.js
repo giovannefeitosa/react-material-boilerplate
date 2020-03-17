@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import menuList from '../../routes/menuList';
+import * as S from './styles';
 
 const drawerWidth = 240;
 
@@ -47,7 +48,10 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+  },
+  contentPadding: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
   },
   activeMenu: {
     '&, &:hover, &:focus': {
@@ -61,6 +65,10 @@ function Page(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const history = useHistory();
+  
+  const classContent = props.noPadding
+    ? classes.content
+    : classes.contentPadding;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -70,11 +78,12 @@ function Page(props) {
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      {menuList.map(menuSection => (
-        <>
+      {menuList.map((menuSection, index) => (
+        <div key={index}>
           <List>
             {menuSection.menus.map(menu => (
               <ListItem
+                key={`${index}-${menu.id}`}
                 className={menu.id === props.currentMenu ? classes.activeMenu : undefined}
                 button
                 onClick={() => menu.path && history.push(menu.path)}
@@ -85,8 +94,36 @@ function Page(props) {
             ))}
           </List>
           <Divider />
-        </>
+        </div>
       ))}
+    </div>
+  );
+
+
+  const leftSlotWidth = props.absoluteLeftWidth || 230;
+  const rightSlotWidth = props.absoluteRightWidth || 230;
+
+  const leftSlot = contentSlot({
+    left: true,
+    width: leftSlotWidth,
+    style: props.absoluteLeftStyle,
+    children: props.absoluteLeftSlot,
+  });
+
+  const rightSlot = contentSlot({
+    right: true,
+    width: rightSlotWidth,
+    style: props.absoluteRightStyle,
+    children: props.absoluteRightSlot,
+  });
+
+  const childrenStyle = {};
+  if (leftSlot) childrenStyle.marginLeft = leftSlotWidth;
+  if (rightSlot) childrenStyle.marginRight = rightSlotWidth;
+
+  const children = (
+    <div style={childrenStyle}>
+      {props.children}
     </div>
   );
 
@@ -107,6 +144,7 @@ function Page(props) {
           <Typography variant="h6" noWrap>
             {props.title || ''}
           </Typography>
+          {props.toolbarSlot}
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
@@ -139,12 +177,27 @@ function Page(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
+      <main className={classContent}>
         <div className={classes.toolbar} />
-        {props.children}
+        {leftSlot}
+        {rightSlot}
+        {children}
       </main>
     </div>
   );
+}
+
+function contentSlot(props) {
+  return props.children ? (
+    <S.AbsoluteSlot
+      left={props.left}
+      right={props.right}
+      width={props.width}
+      style={props.style}
+    >
+      {props.children}
+    </S.AbsoluteSlot>
+   ) : false;
 }
 
 Page.propTypes = {

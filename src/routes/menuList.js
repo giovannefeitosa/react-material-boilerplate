@@ -17,6 +17,12 @@ export default [
         label: 'Sobre Nós',
         icon: InfoIcon,
       },
+      {
+        id: 'LayoutColumns',
+        path: '/layout-columns',
+        label: 'Layout Columns',
+        icon: HomeIcon,
+      }
     ]
   },
 
