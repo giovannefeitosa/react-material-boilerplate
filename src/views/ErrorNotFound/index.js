@@ -4,7 +4,7 @@ import * as S from './styles';
 
 export default function Home() {
   return (
-    <Page title="About">
+    <Page title="Page not found">
       <S.Message>Error 404: Page not found!</S.Message>
     </Page>
   );

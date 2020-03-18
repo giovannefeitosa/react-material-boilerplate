@@ -16,17 +16,23 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import menuList from '../../routes/menuList';
+import Theme from 'Theme';
 import * as S from './styles';
 
-const drawerWidth = 240;
+const drawerWidth = Theme.drawer && Theme.drawer.width ? Theme.drawer.width : 240;
+const drawerActiveMenuStyles = Theme.drawer && Theme.drawer.active ? Theme.drawer.active : undefined;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    alignItems: 'stretch',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
+      ...theme.drawer,
       width: drawerWidth,
+      flex: '1 0',
+      flexBasis: drawerWidth,
       flexShrink: 0,
     },
   },
@@ -47,16 +53,16 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
   },
   content: {
-    flexGrow: 1,
+    flex: '1 1 100%',
   },
   contentPadding: {
-    flexGrow: 1,
+    flex: '1 1 100%',
     padding: theme.spacing(2),
   },
   activeMenu: {
-    '&, &:hover, &:focus': {
-      background: '#e7e7e7',
-    }
+    '&, &:hover, &:focus': drawerActiveMenuStyles || {
+      background: 'rgba(0,0,0,.2)',
+    },
   },
 }));
 
@@ -75,7 +81,7 @@ function Page(props) {
   };
 
   const drawer = (
-    <div>
+    <div className={classes.drawer}>
       <div className={classes.toolbar} />
       <Divider />
       {menuList.map((menuSection, index) => (
